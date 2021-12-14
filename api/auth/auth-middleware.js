@@ -6,8 +6,9 @@
     "message": "You shall not pass!"
   }
 */
-function restricted() {
-
+function restricted(req, res, next) {
+  console.log('restricted() from auth-middleware.js');
+  next();
 }
 
 /*
@@ -47,3 +48,6 @@ function checkPasswordLength() {
 }
 
 // Don't forget to add these to the `exports` object so they can be required in other modules
+module.exports = {
+  restricted,
+}
