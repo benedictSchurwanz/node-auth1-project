@@ -1,33 +1,20 @@
 const router = require('express').Router();
-const { restricted } = require('../auth/auth-middleware')
+const { restricted, checkUsernameFree, checkUsernameExists, checkPasswordLength } = require('../auth/auth-middleware')
 const Users = require('./users-model')
 
 router.get('/', restricted, (req, res, next) => {
-  console.log("hi from get / in users-router")
-  next();
+  console.log("'get all' endpoing in users-router")
+  
+  Users.find()
+    .then(users => {
+      res.status(200).json(users)
+    })
+    .catch(next);
 })
-
-/**
-  [GET] /api/users
-
-  This endpoint is RESTRICTED: only authenticated clients
-  should have access.
-
-  response:
-  status 200
-  [
-    {
-      "user_id": 1,
-      "username": "bob"
-    },
-    // etc
-  ]
-
-  response on non-authenticated:
-  status 401
-  {
-    "message": "You shall not pass!"
-  }
- */
+//  This endpoint is RESTRICTED: only authenticated clients
+  //  verified by restricted() middleware
+//   response on non-authenticated (not logged-in, no session active)
+//   status 401 { "message": "You shall not pass!" }
+  //  message and status comes from restricted() middleware
 
 module.exports = router;

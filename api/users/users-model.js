@@ -5,7 +5,7 @@ const db = require('../../data/db-config.js')
  */
 function find() {
   console.log('find() from users-model.js')
-  return ([])
+  return db('users').select('id', 'username')
 }
 
 /**
